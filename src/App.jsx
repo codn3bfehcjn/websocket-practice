@@ -20,7 +20,7 @@ export default function App() {
         setroomid(id)
         roomidref.current.value = id
         navigator.clipboard.writeText(id)
-        alert("room-id copied to clipboard")
+        alert(`room-id  ${id }copied to clipboard`)
     }
 
     function joinroom() {
