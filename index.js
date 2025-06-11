@@ -41,7 +41,6 @@ wss.on("connection", function (socket) {
         }
     });
 
-    // 🔹 HANDLE DISCONNECTION
     socket.on("close", () => {
         if (currentroom && rooms[currentroom]) {
             rooms[currentroom] = rooms[currentroom].filter(s => s !== socket);
