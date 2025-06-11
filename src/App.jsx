@@ -6,9 +6,9 @@ export default function App() {
     const [ws, setws] = useState()
     const [f, setf] = useState(true)
     const roomidref = useRef()
-    const [name,setname] = useState()
+    const [name, setname] = useState()
 
-    function catchname(e){
+    function catchname(e) {
         setname(e.target.value)
     }
     function createroom() {
@@ -20,7 +20,7 @@ export default function App() {
         setroomid(id)
         roomidref.current.value = id
         navigator.clipboard.writeText(id)
-        alert(`room-id  ${id }copied to clipboard`)
+        alert(`room-id  ${id}copied to clipboard`)
     }
 
     function joinroom() {
@@ -47,7 +47,6 @@ export default function App() {
         }
         ws.onmessage = (e) => {
             console.log("messgae from server", e.data);
-
         }
     }
     return (
@@ -63,7 +62,7 @@ export default function App() {
 }
 
 
-function Room({ws,name}) {
+function Room({ ws, name }) {
     const msgref = useRef()
     const [message, setmessages] = useState([])
     function sendmessage() {
@@ -71,19 +70,19 @@ function Room({ws,name}) {
         const chatinfo = {
             type: "chat",
             message: msg,
-            username:name
+            username: name
         }
         ws.send(JSON.stringify(chatinfo))
         setmessages((prev) => [...prev, `${name}:-${msg}`])
         msgref.current.value = ""
     }
-    useEffect(() => {
+    useEffect(() => {  //agar naya ws connection hoga to yeh handle karega
         if (!ws) return;
 
         const handler = (e) => {
             const parsed = JSON.parse(e.data);
-            if (parsed.type === "chat") {
-                setmessages(prev => [...prev,`${parsed.name}:${parsed.msg}`]);
+            if (parsed.type === "chat" || parsed.type === "notification") {
+                setmessages(prev => [...prev, `${parsed.name||'🔔'}:${parsed.msg || parsed.notify}`]);
             }
         };
 
