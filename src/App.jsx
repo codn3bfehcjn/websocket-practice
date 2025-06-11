@@ -12,13 +12,15 @@ export default function App() {
         setname(e.target.value)
     }
     function createroom() {
-        let str = "3reh2338482bg54893gtbgf201r9h75hfb4gw8q38942r4hf"
+        let str = "G9JZplNsnmxrXTz73K1S8YcRiL0WDuByPVehgoqQUM5aAb6dET"
         let id = "";
         for (let index = 0; index < 5; index++) {
             id += str[Math.floor(Math.random() * str.length)]
         }
         setroomid(id)
         roomidref.current.value = id
+        navigator.clipboard.writeText(id)
+        alert("room-id copied to clipboard")
     }
 
     function joinroom() {
