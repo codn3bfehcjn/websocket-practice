@@ -32,6 +32,7 @@ export default function App() {
 
         if (!name) {
             alert("please enter your name")
+            setf(true)
             return
         }
         const ws = new WebSocket("ws://localhost:8080")
@@ -60,17 +61,18 @@ export default function App() {
 }
 
 
-function Room({ws}) {
+function Room({ws,name}) {
     const msgref = useRef()
     const [message, setmessages] = useState([])
     function sendmessage() {
         let msg = msgref.current.value
         const chatinfo = {
             type: "chat",
-            message: msg
+            message: msg,
+            username:name
         }
         ws.send(JSON.stringify(chatinfo))
-        setmessages((prev) => [...prev, `you:-${msg}`])
+        setmessages((prev) => [...prev, `${name}:-${msg}`])
         msgref.current.value = ""
     }
     useEffect(() => {
@@ -79,7 +81,7 @@ function Room({ws}) {
         const handler = (e) => {
             const parsed = JSON.parse(e.data);
             if (parsed.type === "chat") {
-                setmessages(prev => [...prev, parsed.msg]);
+                setmessages(prev => [...prev,`${parsed.name}:${parsed.msg}`]);
             }
         };
 

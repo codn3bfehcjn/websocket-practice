@@ -35,6 +35,7 @@ wss.on("connection", function (socket) {
                     s.send(JSON.stringify({
                         type: "chat",
                         msg: parsed.message,
+                        name:parsed.username
                     }));
                 }
             });
